@@ -32,7 +32,6 @@ const eventInit = function (data) {
   const forecast = document.querySelector('.forecast');
   const form = document.querySelector('.location-form');
   const locationInput = form.querySelector('input');
-  console.log(form);
 
   forecast.addEventListener('click', (e) => {
     if (!e.target.classList.contains('btn')) return;
@@ -43,7 +42,6 @@ const eventInit = function (data) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const location = locationInput.value.trim();
-    console.log(location);
     if (location === '') {
       alert(`Enter a valid 'city' / 'city,country'`);
       return;

@@ -4,7 +4,15 @@ const root = document.querySelector('.root');
 const renderTemplate = function () {
   root.innerHTML = '';
   const tempHtml = `
-        <div class="current"></div>
+        <div class="main-container">
+          <div class="current"></div>    
+        </div>
+         <div class="sideinfo">
+          <form class="location-form" action="#">
+            <input type="text" name="location" id="location" required/>
+            <button type="submit">Submit</button>
+          </form>
+        </div>
         <div class="forecast">
           <div class="forecast-btn">
             <button class="daily-btn btn">daily</button>
@@ -12,12 +20,7 @@ const renderTemplate = function () {
           </div>
         <div class="forecast-data"></div>
         </div>
-        <div class="sideinfo">
-          <form class="location-form" action="#">
-            <input type="text" name="location" id="location" required/>
-            <button type="submit">Submit</button>
-          </form>
-        </div>
+       
         `;
   root.insertAdjacentHTML('beforeend', tempHtml);
 };

@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-$test-border: px;
+$test-border: 0px;
 
 @mixin hover-btn {
   outline: none;
@@ -21,6 +21,17 @@ $test-border: px;
   transform: translateY(-50%);
   right: -0.6rem;
   background-color: rgba(256, 256, 256, 0.5);
+  @media screen and (max-width: 720px) {
+    @include divider-bottom();
+  }
+}
+@mixin divider-bottom {
+  width: 80%;
+  height: 2px;
+  left: 50%;
+  top: auto;
+  bottom: -0.1rem;
+  transform: translateX(-50%);
 }
 
 * {
@@ -45,27 +56,42 @@ body {
   display: grid;
   grid-template-columns: 3fr 1fr;
   grid-template-rows: 1fr auto;
+
+  @media screen and (max-width: 720px) {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+  }
 }
 * {
   border: $test-border solid black;
+}
+.main-container {
+  height: 100%;
+  position: relative;
+  &:after {
+    @include divider();
+    right: 0;
+  }
+  @media screen and (max-width: 720px) {
+    height: fit-content;
+  }
 }
 .current {
   padding: 0.5rem;
   padding-right: 2rem;
   grid-row: 1;
   grid-column: 1;
-  height: 100%;
+
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: auto;
-  height: fit-content;
-  position: relative;
   gap: 1rem;
   * {
     padding: 0.25rem;
   }
   &-main {
-    font-size: 3rem;
+    font-size: 6rem;
     grid-column: 1;
     grid-row: 1;
   }
@@ -85,11 +111,6 @@ body {
     grid-column: 2;
     grid-row: 1;
   }
-
-  &:after {
-    @include divider();
-    right: 0;
-  }
 }
 .forecast {
   padding: 0.5rem;
@@ -106,8 +127,7 @@ body {
   grid-row: 1;
   grid-column: 2;
   height: 100%;
-  width: auto;
-  max-width: auto;
+  min-width: 250px;
   display: flex;
   flex-direction: column;
   align-items: end;
@@ -138,6 +158,12 @@ body {
       text-transform: uppercase;
       @include hover-btn();
     }
+  }
+  @media screen and (max-width: 720px) {
+    height: fit-content;
+    gap: 2rem;
+    padding: 2rem 0 2rem 0.5rem;
+    align-items: start;
   }
 }
 .forecast-btn {

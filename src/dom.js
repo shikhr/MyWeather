@@ -9,9 +9,11 @@ const renderTemplate = function () {
         </div>
          <div class="sideinfo">
           <form class="location-form" action="#">
-            <input type="text" name="location" id="location" required/>
+            <input type="text" name="location" id="location" />
             <button type="submit">Submit</button>
           </form>
+          <div class="location-err location-err-hidden">Please make sure the location is a valid <b><i>city, country !</i></b></div>
+          </div>
         </div>
         <div class="forecast">
           <div class="forecast-btn">
@@ -47,6 +49,7 @@ const renderSide = function (data) {
   const sunrise = Helper.unixToTime(data.sys.sunrise);
   const sunset = Helper.unixToTime(data.sys.sunset);
   const sideHtml = `
+  <div class="side-time">As of ${Helper.currentTime()}</div>
   <div class="side-location">${data.name}</div>
   <div class="side-sunrise">Sunrise: ${sunrise}</div>
   <div class="side-sunset">Sunset: ${sunset}</div>

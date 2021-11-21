@@ -46,13 +46,15 @@ const initApi = async function (location) {
     const currentData = await getCurrentData(location);
     console.log(currentData);
     if (!currentData) throw new Error(`Enter a valid 'city' / 'city,country'`);
+    Helper.hideError();
     const coords = await getCoords(currentData);
     const fullData = await getFullData(coords);
     console.log(fullData);
     DomFn.renderAll(currentData, fullData);
     Helper.eventInit(fullData);
   } catch (err) {
-    alert(err);
+    Helper.showError();
+    console.log(err);
   }
 };
 

@@ -5,11 +5,17 @@ const options = {
   minute: 'numeric',
 };
 
-const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-let currentDayIndex = new Date().getDay() - 1;
+const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+let currentDayIndex = new Date().getDay();
+console.log(currentDayIndex);
 
 const unixToTime = function (unixVal) {
   const date = new Date(unixVal * 1000);
+  const time = new Intl.DateTimeFormat('en-US', options).format(date);
+  return time;
+};
+const currentTime = function () {
+  const date = new Date();
   const time = new Intl.DateTimeFormat('en-US', options).format(date);
   return time;
 };
@@ -25,7 +31,7 @@ const getDay = function () {
 };
 
 const resetday = function () {
-  currentDayIndex = new Date().getDay() - 1;
+  currentDayIndex = new Date().getDay();
 };
 
 const eventInit = function (data) {
@@ -43,12 +49,30 @@ const eventInit = function (data) {
     e.preventDefault();
     const location = locationInput.value.trim();
     if (location === '') {
-      alert(`Enter a valid 'city' / 'city,country'`);
+      showError();
       return;
     }
+    hideError();
     initApi(location);
     resetday();
   });
 };
 
-export { unixToTime, getDay, eventInit, resetday };
+const showError = function () {
+  const err = document.querySelector('.location-err');
+  err.classList.remove('location-err-hidden');
+};
+const hideError = function () {
+  const err = document.querySelector('.location-err');
+  err.classList.add('location-err-hidden');
+};
+
+export {
+  unixToTime,
+  getDay,
+  eventInit,
+  resetday,
+  showError,
+  hideError,
+  currentTime,
+};

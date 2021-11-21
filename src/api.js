@@ -5,7 +5,7 @@ const APIkey = '9a80c04c91325b8fba16eb19c88a32d2';
 const part = 'minutely';
 
 const buildCurrentUrl = function (location) {
-  return `http://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${APIkey}`;
+  return `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${APIkey}`;
 };
 
 const buildFullUrl = function (coords) {

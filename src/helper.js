@@ -42,6 +42,8 @@ const eventInit = function (data) {
   forecast.addEventListener('click', (e) => {
     if (!e.target.classList.contains('btn')) return;
     const type = e.target.textContent;
+    document.querySelector('.btn-active').classList.remove('btn-active');
+    e.target.classList.add('btn-active');
     if (type === 'daily') DomFn.renderDaily(data.daily);
     if (type === 'hourly') DomFn.renderHourly(data.hourly);
   });

@@ -3,15 +3,16 @@
 $test-border: 0px;
 $divider-width: 0.5px;
 $divider-color: rgba(256, 256, 256, 0.35);
+$divider-color-bright: rgba(256, 256, 256, 0.65);
 
 @mixin hover-btn {
   outline: none;
   border: none;
   color: white;
   background-color: rgba(256, 256, 256, 0.1);
-
+  transition: background-color 300ms;
   &:hover {
-    background-color: rgba(256, 256, 256, 0.2);
+    background-color: rgba(256, 256, 256, 0.3);
   }
 }
 @mixin divider-v {
@@ -85,8 +86,37 @@ body {
 * {
   border: $test-border solid black;
 }
-.main-container {
-  height: 100%;
+
+.current {
+  padding: 0.5rem;
+  padding-right: 2rem;
+  grid-row: 1;
+  grid-column: 1;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  * {
+    padding: 0.25rem;
+  }
+  .c1,
+  .c2 {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  &-main {
+    font-size: 6rem;
+  }
+  &-status {
+    font-size: 2rem;
+  }
+  &-humidity {
+  }
+  &-wind {
+  }
+  img {
+  }
   position: relative;
   &::after {
     @include divider-res();
@@ -96,56 +126,7 @@ body {
     height: fit-content;
   }
 }
-.current {
-  padding: 0.5rem;
-  padding-right: 2rem;
-  grid-row: 1;
-  grid-column: 1;
 
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: auto;
-  gap: 1rem;
-  * {
-    padding: 0.25rem;
-  }
-  &-main {
-    font-size: 6rem;
-    grid-column: 1;
-    grid-row: 1;
-  }
-  &-status {
-    grid-column: 1;
-    grid-row: 2;
-  }
-  &-humidity {
-    grid-column: 2;
-    grid-row: 2;
-  }
-  &-wind {
-    grid-column: 2;
-    grid-row: 3;
-  }
-  img {
-    grid-column: 2;
-    grid-row: 1;
-  }
-}
-.forecast {
-  margin-top: 2rem;
-  padding: 0.5rem;
-  grid-row: 2;
-  grid-column: span 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-  gap: 1rem;
-  position: relative;
-  &::before {
-    @include divider-h();
-    top: -0.6rem;
-  }
-}
 .sideinfo {
   padding: 0.5rem;
   padding-left: 2rem;
@@ -156,8 +137,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: end;
+  .side-time {
+    color: darken($color: white, $amount: 25);
+  }
   .side-location {
-    font-size: 2rem;
+    font-size: 2.75rem;
   }
   .side-sunrise,
   .side-sunset {
@@ -166,18 +150,22 @@ body {
   .location-form {
     margin-top: auto;
     display: flex;
-
+    width: 100%;
     input {
       color: white;
       outline: none;
       border: none;
       padding: 0.5rem;
       width: 100%;
+      border-bottom: 2px solid $divider-color;
       background-color: rgba(0, 0, 0, 0.1);
       &:focus {
         background-color: rgba(0, 0, 0, 0.2);
+        border-bottom: 2px solid $divider-color-bright;
       }
+      transition: all 250ms;
     }
+
     button {
       padding: 0.25rem 0.5rem;
       text-transform: uppercase;
@@ -197,7 +185,23 @@ body {
     align-items: start;
     .location-form {
       margin-top: 3rem;
+      width: auto;
     }
+  }
+}
+.forecast {
+  margin-top: 2rem;
+  padding: 0.5rem;
+  grid-row: 2;
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  gap: 1rem;
+  position: relative;
+  &::before {
+    @include divider-h();
+    top: -0.6rem;
   }
 }
 .forecast-btn {
@@ -207,8 +211,8 @@ body {
     width: 6rem;
     @include hover-btn();
   }
-  .active {
-    background-color: white;
+  .btn-active {
+    background-color: rgba(256, 256, 256, 0.3);
   }
 }
 .forecast-data {
@@ -226,9 +230,20 @@ body {
     flex-direction: column;
     align-items: center;
     text-transform: uppercase;
+    text-align: center;
     img {
       width: 6rem;
     }
+
+    .daily-max,
+    .daily-min,
+    .hourly-temp {
+      font-size: 1.25rem;
+    }
+    .daily-min {
+      color: darken($color: white, $amount: 25);
+    }
+
     position: relative;
     &:not(:last-child)::after {
       @include divider-v();

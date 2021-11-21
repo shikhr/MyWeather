@@ -4,9 +4,10 @@ const root = document.querySelector('.root');
 const renderTemplate = function () {
   root.innerHTML = '';
   const tempHtml = `
-        <div class="main-container">
-          <div class="current"></div>    
-        </div>
+        <div class="current">
+             <div class="c1"></div>   
+             <div class="c2"></div>   
+          </div>
          <div class="sideinfo">
           <form class="location-form" action="#">
             <input type="text" name="location" id="location" />
@@ -17,7 +18,7 @@ const renderTemplate = function () {
         </div>
         <div class="forecast">
           <div class="forecast-btn">
-            <button class="daily-btn btn">daily</button>
+            <button class="daily-btn btn btn-active">daily</button>
             <button class="hourly-btn btn">hourly</button>
           </div>
         <div class="forecast-data"></div>
@@ -28,21 +29,26 @@ const renderTemplate = function () {
 };
 
 const renderCurrent = function (data) {
-  const currentEle = document.querySelector('.current');
+  const c1 = document.querySelector('.c1');
+  const c2 = document.querySelector('.c2');
 
-  const tempHtml = `
+  const c1Html = `
           <div class="current-main">${Math.round(data.main.feels_like)}°</div>
           <div class="current-status">${data.weather[0].main}</div>
-          <img src="http://openweathermap.org/img/wn/${
-            data.weather[0].icon
-          }@2x.png" />
+          
+  `;
+  const c2Html = `
+        <img src="http://openweathermap.org/img/wn/${
+          data.weather[0].icon
+        }@2x.png" />
           <div class="current-humidity">Humidity:${data.main.humidity}%</div>
           <div class="current-wind">Wind:${Math.round(
             data.wind.speed * 3.6
           )} Km/h</div>
   `;
 
-  currentEle.insertAdjacentHTML('afterbegin', tempHtml);
+  c1.insertAdjacentHTML('afterbegin', c1Html);
+  c2.insertAdjacentHTML('afterbegin', c2Html);
 };
 const renderSide = function (data) {
   const sideinfo = document.querySelector('.sideinfo');

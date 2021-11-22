@@ -10,8 +10,8 @@ const renderTemplate = function () {
           </div>
          <div class="sideinfo">
           <form class="location-form" action="#">
-            <input type="text" name="location" id="location" />
-            <button type="submit">Submit</button>
+            <input type="text" name="location" id="location" placeholder="city, country" autocomplete="off" />
+            <button type="submit">Search</button>
           </form>
           <div class="location-err location-err-hidden">Please make sure the location is a valid <b><i>city, country !</i></b></div>
           </div>

@@ -1,43 +1,48 @@
 import * as DomFn from './dom';
 import { initApi } from './api';
 import weatherIcon from './icons';
-const options = {
-  hour: 'numeric',
-  minute: 'numeric',
-};
-const optionsCurrent = {
-  weekday: 'long',
-  hour: 'numeric',
-  minute: 'numeric',
-};
 
-const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-let currentDayIndex = new Date().getDay();
-console.log(currentDayIndex);
+const locale = navigator.language;
+let timezone;
+const setTimezone = function (tz) {
+  timezone = tz;
+};
 
 const unixToTime = function (unixVal) {
   const date = new Date(unixVal * 1000);
-  const time = new Intl.DateTimeFormat('en-US', options).format(date);
+  const time = new Intl.DateTimeFormat(locale, {
+    hour: 'numeric',
+    minute: 'numeric',
+    timeZone: timezone,
+  }).format(date);
   return time;
 };
-const currentTime = function () {
-  const date = new Date();
-  const time = new Intl.DateTimeFormat('en-US', optionsCurrent).format(date);
+const currentTime = function (unixVal) {
+  const date = new Date(unixVal * 1000);
+  const time = new Intl.DateTimeFormat(locale, {
+    hour: 'numeric',
+    minute: 'numeric',
+    month: 'short',
+    timeZone: timezone,
+  }).format(date);
   return time;
 };
-const setNextDayIndex = function (index) {
-  if (currentDayIndex < 6) currentDayIndex++;
-  else currentDayIndex = 0;
-};
 
-const getDay = function () {
-  const currentDay = days[currentDayIndex];
-  setNextDayIndex();
-  return currentDay;
+const getDay = function (unixVal) {
+  const date = new Date(unixVal * 1000);
+  const day = new Intl.DateTimeFormat(locale, {
+    weekday: 'short',
+    timeZone: timezone,
+  }).format(date);
+  return day;
 };
-
-const resetday = function () {
-  currentDayIndex = new Date().getDay();
+const getHour = function (unixVal) {
+  const date = new Date(unixVal * 1000);
+  const hour = new Intl.DateTimeFormat(locale, {
+    hour: 'numeric',
+    timeZone: timezone,
+  }).format(date);
+  return hour;
 };
 
 const eventInit = function (data) {
@@ -62,7 +67,6 @@ const eventInit = function (data) {
     }
     hideError();
     initApi(location);
-    resetday();
   });
 };
 
@@ -90,10 +94,11 @@ const getIcon = function (code) {
 export {
   unixToTime,
   getDay,
+  getHour,
   eventInit,
-  resetday,
   showError,
   hideError,
   currentTime,
   getIcon,
+  setTimezone,
 };

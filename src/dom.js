@@ -31,7 +31,7 @@ const renderTemplate = function () {
 const renderCurrent = function (data, data2) {
   const c1 = document.querySelector('.c1');
   const c2 = document.querySelector('.c2');
-  console.log(data2);
+
   const c1Html = `
           <div class="current-main">${Math.round(data.main.feels_like)}°</div>
           <div class="current-status">${data.weather[0].main}</div>
@@ -39,7 +39,7 @@ const renderCurrent = function (data, data2) {
   `;
   const codeClass = Helper.getIcon(data.weather[0].id);
   const c2Html = `
-        <i class="${codeClass} mi-4x"></i>
+        <i class="${codeClass} mi-5x"></i>
           <div class="current-humidity">Humidity: ${data.main.humidity}%</div>
           <div class="current-wind">Wind: ${Math.round(
             data.wind.speed * 3.6
@@ -55,7 +55,7 @@ const renderSide = function (data) {
   const sunrise = Helper.unixToTime(data.sys.sunrise);
   const sunset = Helper.unixToTime(data.sys.sunset);
   const sideHtml = `
-  <div class="side-time">As of ${Helper.currentTime()}</div>
+  <div class="side-time">As of ${Helper.currentTime(data.dt)}</div>
   <div class="side-location">${data.name}</div>
   <div class="side-sunrise">Sunrise: ${sunrise}</div>
   <div class="side-sunset">Sunset: ${sunset}</div>
@@ -71,9 +71,10 @@ const renderDaily = function (data) {
 
   data.forEach((day) => {
     const codeClass = Helper.getIcon(day.weather[0].id);
+    const dayVal = Helper.getDay(day.dt);
     dayHtml += `
           <div class="daily">
-              <div class="daily-name">${Helper.getDay()}</div>
+              <div class="daily-name">${dayVal}</div>
               <i class="${codeClass} mi-4x"></i>
               <div class="daily-max">${Math.round(day.temp.max)}°</div>
               <div class="daily-min">${Math.round(day.temp.min)}°</div>
@@ -81,14 +82,7 @@ const renderDaily = function (data) {
     `;
   });
   forecast.insertAdjacentHTML('beforeend', dayHtml);
-  Helper.resetday();
 };
-
-/*
-<img src="http://openweathermap.org/img/wn/${
-                day.weather[0].icon
-              }@2x.png" />
-*/
 
 const renderHourly = function (data) {
   const forecast = document.querySelector('.forecast-data');
@@ -96,21 +90,21 @@ const renderHourly = function (data) {
 
   let hourHtml = ``;
   const hours12 = data.slice(0, 14);
-  console.log(hours12);
   hours12.forEach((hour) => {
     const codeClass = Helper.getIcon(hour.weather[0].id);
+    const hourVal = Helper.getHour(hour.dt);
     hourHtml += `
     <div class="hourly">
-    <div class="hour-name">hour</div>
-    <i class="${codeClass} mi-4x"></i>
-    <div class="hourly-temp">${Math.round(hour.feels_like)}°</div>
+      <div class="hour-name">${hourVal}</div>
+      <i class="${codeClass} mi-4x"></i>
+      <div class="hourly-temp">${Math.round(hour.feels_like)}°</div>
     </div>
     `;
   });
   forecast.insertAdjacentHTML('beforeend', hourHtml);
-  Helper.resetday();
 };
 const renderAll = function (currentdata, fullData) {
+  Helper.setTimezone(fullData.timezone);
   renderTemplate();
   renderCurrent(currentdata, fullData.daily[0]);
   renderSide(currentdata);

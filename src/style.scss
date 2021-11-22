@@ -111,12 +111,7 @@ body {
   &-status {
     font-size: 2rem;
   }
-  &-humidity {
-  }
-  &-wind {
-  }
-  img {
-  }
+
   position: relative;
   &::after {
     @include divider-res();
@@ -253,4 +248,10 @@ body {
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+.mi-4x {
+  text-align: center;
+  font-size: 60px;
+  padding: 20px 5px;
 }

@@ -1,6 +1,12 @@
 import * as DomFn from './dom';
 import { initApi } from './api';
+import weatherIcon from './icons';
 const options = {
+  hour: 'numeric',
+  minute: 'numeric',
+};
+const optionsCurrent = {
+  weekday: 'long',
   hour: 'numeric',
   minute: 'numeric',
 };
@@ -16,7 +22,7 @@ const unixToTime = function (unixVal) {
 };
 const currentTime = function () {
   const date = new Date();
-  const time = new Intl.DateTimeFormat('en-US', options).format(date);
+  const time = new Intl.DateTimeFormat('en-US', optionsCurrent).format(date);
   return time;
 };
 const setNextDayIndex = function (index) {
@@ -69,6 +75,18 @@ const hideError = function () {
   err.classList.add('location-err-hidden');
 };
 
+const getIcon = function (code) {
+  const prefix = 'wi wi-';
+  let icon = weatherIcon[code].icon;
+
+  if (!(code > 699 && code < 800) && !(code > 899 && code < 1000)) {
+    icon = 'day-' + icon;
+  }
+
+  icon = prefix + icon;
+  return icon;
+};
+
 export {
   unixToTime,
   getDay,
@@ -77,4 +95,5 @@ export {
   showError,
   hideError,
   currentTime,
+  getIcon,
 };

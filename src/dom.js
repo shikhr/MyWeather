@@ -28,23 +28,23 @@ const renderTemplate = function () {
   root.insertAdjacentHTML('beforeend', tempHtml);
 };
 
-const renderCurrent = function (data) {
+const renderCurrent = function (data, data2) {
   const c1 = document.querySelector('.c1');
   const c2 = document.querySelector('.c2');
-
+  console.log(data2);
   const c1Html = `
           <div class="current-main">${Math.round(data.main.feels_like)}°</div>
           <div class="current-status">${data.weather[0].main}</div>
           
   `;
+  const codeClass = Helper.getIcon(data.weather[0].id);
   const c2Html = `
-        <img src="http://openweathermap.org/img/wn/${
-          data.weather[0].icon
-        }@2x.png" />
-          <div class="current-humidity">Humidity:${data.main.humidity}%</div>
-          <div class="current-wind">Wind:${Math.round(
+        <i class="${codeClass} mi-4x"></i>
+          <div class="current-humidity">Humidity: ${data.main.humidity}%</div>
+          <div class="current-wind">Wind: ${Math.round(
             data.wind.speed * 3.6
           )} Km/h</div>
+           <div class="current-pop">Chance of Rain: ${data2.pop}%</div>
   `;
 
   c1.insertAdjacentHTML('afterbegin', c1Html);
@@ -70,12 +70,11 @@ const renderDaily = function (data) {
   let dayHtml = ``;
 
   data.forEach((day) => {
+    const codeClass = Helper.getIcon(day.weather[0].id);
     dayHtml += `
           <div class="daily">
               <div class="daily-name">${Helper.getDay()}</div>
-              <img src="http://openweathermap.org/img/wn/${
-                day.weather[0].icon
-              }@2x.png" />
+              <i class="${codeClass} mi-4x"></i>
               <div class="daily-max">${Math.round(day.temp.max)}°</div>
               <div class="daily-min">${Math.round(day.temp.min)}°</div>
           </div>
@@ -84,20 +83,26 @@ const renderDaily = function (data) {
   forecast.insertAdjacentHTML('beforeend', dayHtml);
   Helper.resetday();
 };
+
+/*
+<img src="http://openweathermap.org/img/wn/${
+                day.weather[0].icon
+              }@2x.png" />
+*/
+
 const renderHourly = function (data) {
   const forecast = document.querySelector('.forecast-data');
   forecast.innerHTML = '';
 
   let hourHtml = ``;
-  const hours12 = data.slice(0, 12);
+  const hours12 = data.slice(0, 14);
   console.log(hours12);
   hours12.forEach((hour) => {
+    const codeClass = Helper.getIcon(hour.weather[0].id);
     hourHtml += `
     <div class="hourly">
     <div class="hour-name">hour</div>
-    <img src="http://openweathermap.org/img/wn/${
-      hour.weather[0].icon
-    }@2x.png" />
+    <i class="${codeClass} mi-4x"></i>
     <div class="hourly-temp">${Math.round(hour.feels_like)}°</div>
     </div>
     `;
@@ -107,7 +112,7 @@ const renderHourly = function (data) {
 };
 const renderAll = function (currentdata, fullData) {
   renderTemplate();
-  renderCurrent(currentdata);
+  renderCurrent(currentdata, fullData.daily[0]);
   renderSide(currentdata);
   renderDaily(fullData.daily);
 };

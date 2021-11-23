@@ -3,9 +3,14 @@ import { initApi } from './api';
 import weatherIcon from './icons';
 
 const locale = navigator.language;
+
 let timezone;
 const setTimezone = function (tz) {
   timezone = tz;
+};
+const commonOptions = {
+  timeZone: timezone,
+  hour12: true,
 };
 
 const unixToTime = function (unixVal) {
@@ -13,7 +18,7 @@ const unixToTime = function (unixVal) {
   const time = new Intl.DateTimeFormat(locale, {
     hour: 'numeric',
     minute: 'numeric',
-    timeZone: timezone,
+    ...commonOptions,
   }).format(date);
   return time;
 };
@@ -23,7 +28,8 @@ const currentTime = function (unixVal) {
     hour: 'numeric',
     minute: 'numeric',
     month: 'short',
-    timeZone: timezone,
+    day: 'numeric',
+    ...commonOptions,
   }).format(date);
   return time;
 };
@@ -32,7 +38,7 @@ const getDay = function (unixVal) {
   const date = new Date(unixVal * 1000);
   const day = new Intl.DateTimeFormat(locale, {
     weekday: 'short',
-    timeZone: timezone,
+    ...commonOptions,
   }).format(date);
   return day;
 };
@@ -40,7 +46,7 @@ const getHour = function (unixVal) {
   const date = new Date(unixVal * 1000);
   const hour = new Intl.DateTimeFormat(locale, {
     hour: 'numeric',
-    timeZone: timezone,
+    ...commonOptions,
   }).format(date);
   return hour;
 };

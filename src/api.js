@@ -1,7 +1,7 @@
 import * as DomFn from './dom';
 import * as Helper from './helper';
 
-const APIkey = '9a80c04c91325b8fba16eb19c88a32d2';
+const APIkey = 'ca81271b58ccefddf83403571fbbe683';
 const part = 'minutely';
 
 const buildCurrentUrl = function (location) {
